@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#0C0C0A">
+<title>Solé — Çok Yakında</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;1,300&family=Poppins:wght@300;400&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --cream:  #F7F4EF;
+  --dark:   #0C0C0A;
+  --warm:   #B8976A;
+  --muted:  #999690;
+  --white:  #FFFFFF;
+  --sp-xs:  clamp(16px, 2vw, 24px);
+  --sp-sm:  clamp(24px, 3vw, 40px);
+  --sp-md:  clamp(40px, 6vw, 80px);
+  --sp-lg:  clamp(60px, 9vw, 120px);
+  --sp-xl:  clamp(80px, 12vw, 160px);
+}
+
+html { scroll-behavior: smooth; overflow-x: hidden; }
+
+body {
+  background: var(--dark);
+  font-family: 'Poppins', sans-serif;
+  font-weight: 300;
+  overflow-x: hidden;
+  cursor: none;
+}
+
+.cursor {
+  display: none;
+  position: fixed; width: 7px; height: 7px;
+  background: #fff; border-radius: 50%;
+  pointer-events: none; z-index: 9999;
+  transform: translate(-50%,-50%);
+  transition: width .35s ease, height .35s ease, background .35s ease, border .35s ease;
+  will-change: left, top;
+}
+@media (hover: hover) and (pointer: fine) {
+  .cursor { display: block; }
+  body { cursor: none; }
+}
+.cursor.expand {
+  width: 34px; height: 34px; background: transparent;
+  border: 1px solid rgba(255,255,255,0.55);
+}
+.cursor.dark-mode { background: var(--dark); }
+.cursor.expand.dark-mode { background: transparent; border-color: rgba(0,0,0,0.35); }
+
+body::after {
+  content: ''; position: fixed; inset: 0; z-index: 9997;
+  pointer-events: none; opacity: .03; mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* ── HERO ── */
+.hero {
+  position: relative; width: 100vw; height: 100svh;
+  overflow: hidden; display: flex; align-items: center; justify-content: center;
+}
+.hero-video {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  object-fit: cover; object-position: center;
+}
+@media (max-width: 640px) {
+  .hero-video { object-position: 60% center; }
+}
+.hero-grad {
+  position: absolute; inset: 0;
+  background: linear-gradient(175deg,rgba(12,12,10,.15) 0%,rgba(12,12,10,.45) 55%,rgba(12,12,10,.80) 100%);
+}
+.hero-content {
+  position: relative; z-index: 2;
+  display: flex; flex-direction: column; align-items: center;
+  gap: clamp(14px, 2.5vw, 22px);
+  text-align: center; padding: 0 var(--sp-xs); width: 100%;
+}
+.hero-logo {
+  width: clamp(100px, 18vw, 160px); filter: invert(1);
+  opacity: 0; transform: translateY(18px);
+  animation: riseIn 1.4s cubic-bezier(.22,1,.36,1) .3s forwards;
+}
+.hero-rule {
+  width: 0; height: 1px; background: rgba(255,255,255,.35);
+  animation: growLine 1.2s cubic-bezier(.22,1,.36,1) 1.1s forwards;
+}
+.hero-tagline {
+  font-family: 'Cormorant Garamond', serif; font-style: italic; font-weight: 300;
+  font-size: clamp(15px, 2.2vw, 24px); color: rgba(255,255,255,.84); letter-spacing: .04em;
+  opacity: 0; transform: translateY(16px);
+  animation: riseIn 1.2s cubic-bezier(.22,1,.36,1) 1.5s forwards;
+}
+.hero-bientot {
+  font-family: 'Poppins', sans-serif; font-weight: 300;
+  font-size: clamp(38px, 7vw, 90px);
+  letter-spacing: clamp(.12em, 1.5vw, .2em);
+  color: #fff; text-transform: lowercase;
+  opacity: 0; transform: translateY(20px);
+  animation: riseIn 1.4s cubic-bezier(.22,1,.36,1) 2s forwards;
+}
+.scroll-cue {
+  position: absolute; bottom: clamp(24px, 4vh, 44px);
+  left: 50%; transform: translateX(-50%); z-index: 2;
+  display: flex; flex-direction: column; align-items: center; gap: 10px;
+  opacity: 0; animation: riseIn 1s ease 3.2s forwards;
+}
+.scroll-cue span {
+  font-size: 9px; letter-spacing: .38em;
+  text-transform: uppercase; color: rgba(255,255,255,.42);
+}
+.scroll-cue-line {
+  width: 1px; height: 40px;
+  background: linear-gradient(to bottom, rgba(255,255,255,.45), transparent);
+  animation: pulseLine 2s ease-in-out 3.4s infinite;
+}
+
+/* ── MANİFESTO ── */
+.manifesto {
+  background: var(--cream); min-height: 100svh;
+  display: flex; align-items: center; justify-content: center;
+  padding: var(--sp-xl) var(--sp-sm);
+}
+.manifesto-inner { max-width: 680px; width: 100%; text-align: center; }
+
+.eyebrow {
+  font-size: clamp(9px, 1.2vw, 11px); letter-spacing: .44em;
+  text-transform: uppercase; color: var(--warm); margin-bottom: var(--sp-sm);
+  opacity: 0; transform: translateY(14px);
+  transition: all .9s cubic-bezier(.22,1,.36,1);
+}
+.eyebrow.in { opacity: 1; transform: none; }
+
+.manifesto-title {
+  font-family: 'Cormorant Garamond', serif; font-weight: 300; line-height: 1.1;
+  font-size: clamp(40px, 6vw, 74px); color: var(--dark); margin-bottom: var(--sp-sm);
+  opacity: 0; transform: translateY(20px);
+  transition: all 1s cubic-bezier(.22,1,.36,1) .1s;
+}
+.manifesto-title.in { opacity: 1; transform: none; }
+
+.manifesto-body {
+  font-size: clamp(13px, 1.6vw, 15px); line-height: 1.95;
+  color: var(--muted); letter-spacing: .02em;
+  opacity: 0; transform: translateY(14px);
+  transition: all 1s cubic-bezier(.22,1,.36,1) .22s;
+}
+.manifesto-body.in { opacity: 1; transform: none; }
+
+.divider {
+  width: 42px; height: 1px; background: var(--warm);
+  margin: var(--sp-md) auto;
+  opacity: 0; transform: scaleX(0); transform-origin: center;
+  transition: all .8s cubic-bezier(.22,1,.36,1) .36s;
+}
+.divider.in { opacity: 1; transform: scaleX(1); }
+
+.manifesto-cta {
+  font-size: clamp(9px, 1.2vw, 11px); letter-spacing: .3em;
+  text-transform: uppercase; color: var(--dark);
+  opacity: 0; transform: translateY(14px);
+  transition: all .9s cubic-bezier(.22,1,.36,1) .48s;
+}
+.manifesto-cta.in { opacity: 1; transform: none; }
+.manifesto-cta a {
+  color: inherit; text-decoration: none;
+  border-bottom: 1px solid var(--dark); padding-bottom: 3px;
+  transition: color .3s, border-color .3s;
+}
+.manifesto-cta a:hover { color: var(--warm); border-color: var(--warm); }
+
+/* ── PHOTO BLOCKS ── */
+.photo-block {
+  position: relative; overflow: hidden;
+  height: clamp(480px, 80vw, 780px);
+}
+@media (max-width: 640px) {
+  .photo-block { height: 100svh; }
+}
+.photo-bg {
+  position: absolute; inset: 0;
+  background-size: cover; background-position: center;
+  will-change: transform; transform: scale(1.08);
+}
+.photo-bg.p1 { background-image: url('./assets/photo1.jpg'); }
+.photo-bg.p2 { background-image: url('./assets/photo2.jpg'); background-position: 55% center; }
+
+.photo-grad-bottom {
+  position: absolute; inset: 0;
+  background: linear-gradient(to top,rgba(12,12,10,.72) 0%,rgba(12,12,10,.15) 55%,transparent 100%);
+}
+.photo-grad-left {
+  position: absolute; inset: 0;
+  background: linear-gradient(to right,rgba(12,12,10,.55) 0%,transparent 60%);
+}
+.caption {
+  position: absolute; z-index: 2;
+  opacity: 0; transition: all 1s cubic-bezier(.22,1,.36,1);
+}
+.caption.bottom-left {
+  bottom: clamp(32px, 5vh, 60px); left: clamp(28px, 5vw, 60px);
+  transform: translateY(20px); max-width: min(420px, 90vw);
+}
+.caption.bottom-right {
+  bottom: clamp(32px, 5vh, 60px); right: clamp(28px, 5vw, 60px);
+  transform: translateY(20px); text-align: right; max-width: min(380px, 90vw);
+}
+.caption.in { opacity: 1; transform: none; }
+.caption h3 {
+  font-family: 'Cormorant Garamond', serif; font-style: italic; font-weight: 300;
+  font-size: clamp(22px, 3.5vw, 40px); color: #fff; line-height: 1.3; margin-bottom: 12px;
+}
+.caption p {
+  font-size: clamp(9px, 1.1vw, 11px); letter-spacing: .35em;
+  text-transform: uppercase; color: rgba(255,255,255,.48);
+}
+
+/* ── FOOTER ── */
+footer {
+  background: var(--dark);
+  padding: clamp(40px,6vw,64px) clamp(24px,5vw,56px);
+  display: grid; grid-template-columns: 1fr auto;
+  grid-template-rows: auto auto; gap: 20px 32px; align-items: center;
+}
+.ft-brand {
+  font-family: 'Poppins', sans-serif; font-weight: 300;
+  font-size: clamp(16px, 2.5vw, 22px); letter-spacing: .22em;
+  color: rgba(255,255,255,.9); text-transform: uppercase;
+}
+.ft-nav { display: flex; gap: clamp(16px, 3vw, 36px); align-items: center; flex-wrap: wrap; }
+.ft-nav a {
+  font-size: clamp(9px, 1.1vw, 11px); letter-spacing: .28em;
+  text-transform: uppercase; color: rgba(255,255,255,.38);
+  text-decoration: none; transition: color .3s; white-space: nowrap;
+}
+.ft-nav a:hover { color: rgba(255,255,255,.85); }
+.ft-copy { grid-column: 1 / -1; font-size: clamp(9px, 1vw, 10px); color: rgba(255,255,255,.18); letter-spacing: .15em; }
+
+@media (max-width: 480px) {
+  footer { grid-template-columns: 1fr; grid-template-rows: auto auto auto; }
+}
+
+/* ── KEYFRAMES ── */
+@keyframes riseIn { to { opacity: 1; transform: none; } }
+@keyframes growLine { to { width: clamp(50px, 8vw, 90px); } }
+@keyframes pulseLine { 0%,100%{opacity:1;} 50%{opacity:.25;} }
+</style>
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+
+<section class="hero">
+  <video class="hero-video" autoplay muted loop playsinline preload="auto" src="./assets/hero.mp4"></video>
+  <div class="hero-grad"></div>
+  <div class="hero-content">
+    <img class="hero-logo" src="./assets/logo.png" alt="Solé">
+    <div class="hero-rule"></div>
+    <p class="hero-tagline">Işığını yansıtan kadınlar için.</p>
+    <h1 class="hero-bientot">bientôt</h1>
+  </div>
+  <div class="scroll-cue">
+    <div class="scroll-cue-line"></div>
+    <span>Keşfet</span>
+  </div>
+</section>
+
+<section class="manifesto" id="manifesto">
+  <div class="manifesto-inner">
+    <p class="eyebrow observe">Solé — 2026</p>
+    <h2 class="manifesto-title observe">Hareketin<br>zarafeti.</h2>
+    <p class="manifesto-body observe">
+      Her kadının içinde taşıdığı güç ve zarafetin<br>
+      kıyafete dönüşmesi. Premium spor giyimde<br>
+      yeni bir sayfa açılıyor.
+    </p>
+    <div class="divider observe"></div>
+    <p class="manifesto-cta observe">
+      <a href="https://instagram.com/solefit.tr" target="_blank">@solefit.tr</a>
+      &nbsp;—&nbsp; Bizi takip edin
+    </p>
+  </div>
+</section>
+
+<section class="photo-block" id="pb1">
+  <div class="photo-bg p1" id="bg1"></div>
+  <div class="photo-grad-bottom"></div>
+  <div class="photo-grad-left"></div>
+  <div class="caption bottom-left observe">
+    <h3>Tasarlandı.<br>Hissedildi.<br>Sınırlar aşıldı.</h3>
+    <p>@solefit.tr</p>
+  </div>
+</section>
+
+<section class="photo-block" id="pb2">
+  <div class="photo-bg p2" id="bg2"></div>
+  <div class="photo-grad-bottom"></div>
+  <div class="caption bottom-right observe">
+    <h3>Her sabah<br>yeni bir başlangıç.</h3>
+    <p>Premium Activewear</p>
+  </div>
+</section>
+
+<footer>
+  <span class="ft-brand">Solé</span>
+  <nav class="ft-nav">
+    <a href="https://instagram.com/solefit.tr" target="_blank">Instagram</a>
+    <a href="mailto:hello@solefit.tr">İletişim</a>
+  </nav>
+  <p class="ft-copy">© 2026 Solé. Tüm hakları saklıdır.</p>
+</footer>
+
+<script>
+(function() {
+  var cur = document.getElementById('cursor');
+  var mx = 0, my = 0, cx = 0, cy = 0;
+  if (window.matchMedia('(hover:hover) and (pointer:fine)').matches) {
+    document.addEventListener('mousemove', function(e) { mx = e.clientX; my = e.clientY; });
+    (function loop() {
+      cx += (mx - cx) * 0.1; cy += (my - cy) * 0.1;
+      cur.style.left = cx + 'px'; cur.style.top = cy + 'px';
+      requestAnimationFrame(loop);
+    })();
+    document.querySelectorAll('a, button').forEach(function(el) {
+      el.addEventListener('mouseenter', function() { cur.classList.add('expand'); });
+      el.addEventListener('mouseleave', function() { cur.classList.remove('expand'); });
+    });
+    var manifesto = document.getElementById('manifesto');
+    manifesto.addEventListener('mouseenter', function() { cur.classList.add('dark-mode'); });
+    manifesto.addEventListener('mouseleave', function() { cur.classList.remove('dark-mode'); });
+  }
+
+  window.addEventListener('scroll', function() {
+    var y = window.scrollY;
+    [['pb1','bg1'],['pb2','bg2']].forEach(function(pair) {
+      var sec = document.getElementById(pair[0]);
+      var bg  = document.getElementById(pair[1]);
+      if (!sec || !bg) return;
+      var rect = sec.getBoundingClientRect();
+      if (rect.top < window.innerHeight && rect.bottom > 0) {
+        var offset = (rect.top / window.innerHeight) * 60;
+        bg.style.transform = 'translateY(' + offset + 'px) scale(1.08)';
+      }
+    });
+  }, {passive: true});
+
+  var io = new IntersectionObserver(function(entries) {
+    entries.forEach(function(e) { if (e.isIntersecting) e.target.classList.add('in'); });
+  }, { threshold: 0.15 });
+  document.querySelectorAll('.observe').forEach(function(el) { io.observe(el); });
+})();
+</script>
+</body>
+</html>
